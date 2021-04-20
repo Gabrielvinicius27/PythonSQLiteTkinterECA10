@@ -25,9 +25,8 @@ def Consulta(campo, valor):
     if estado_selecao.get() == "1": tipoPesquisa.append(['','%'])
     if estado_selecao.get() == "2": tipoPesquisa.append(['%','%'])
     if estado_selecao.get() == "3": tipoPesquisa.append(['%',''])
-    print(tipoPesquisa)
     registro = 'SELECT * FROM alunos WHERE {0} LIKE "{2}{1}{3}"'.format(campo, valor, tipoPesquisa[0][0], tipoPesquisa[0][1])
-    print(registro)
+    queryExecutada.set("O comando executado foi: {}".format(registro))
     cur.execute(registro)
     result = cur.fetchall()
     # Fecha a conexão
@@ -102,6 +101,9 @@ enNome.config(validate="key", validatecommand=(regNoNumber, '%P'))
 
 # Cria widget Treeview e seu Frame
 frTree = ttk.LabelFrame(janela, text="Resultados da Pesquisa")
+# Label para mostrar comando executado
+queryExecutada = tk.StringVar()
+lbqueryExecutada = ttk.Label(frTree, textvariable=queryExecutada)
 tree = ttk.Treeview(frTree)
 # Colunas do Treeview
 tree['columns'] = ['Nome', 'RA', 'Cracha', 'Chamada']
@@ -122,13 +124,16 @@ select3 = ttk.Radiobutton(FrameSelecao, text='Termina com', variable=estado_sele
 # Monta alguns widgets na tela
 frEntradas.grid(row=0, column=0)
 frTree.grid(row=1, columnspan=2)
-tree.grid(row=0, columnspan=2)
-lbCountResults.grid(row=1, column=0, sticky='w')
+lbqueryExecutada.grid(row=0, sticky='w')
+tree.grid(row=1, columnspan=2)
+lbCountResults.grid(row=2, column=0, sticky='w')
 FrameSelecao.grid(row=0, column=1, padx =2, pady=2)
 select1.grid(row=0, column=0, sticky = tk.W,pady=2)
 select2.grid(row=1, column=0, sticky = tk.W, pady=2)
 select3.grid(row=2, column=0, sticky = tk.W, pady=2)
+
 # Configura janela
-janela.geometry("1200x500+0+0")
+janela.geometry("1010x380+0+0")
+janela.resizable(False, False)
 janela.title("Consulta de Alunos - Integração SQLite e GUI")
 janela.mainloop()
