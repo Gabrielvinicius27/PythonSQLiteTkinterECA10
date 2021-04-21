@@ -51,6 +51,7 @@ def callback_number(valor):
     elif valor == "":
         return True
     else:
+        showwarning(title="Entrada invaida!!!", message="Este campo aceita apenas números")
         return False 
 
 # Verifica se o valor inserido não é número
@@ -70,7 +71,7 @@ def montaCamposPesquisa(frame, campos, photo):
         globals()["lb"+str(campo)] = ttk.Label(frame, text="{}:".format(campo))
         globals()["en"+str(campo)] = ttk.Entry(frame)
         globals()["en"+str(campo)].bind('<Return>', globals()["fn"+str(campo)])
-        globals()["bt"+str(campo)] = ttk.Button(frame, image=photo, command = globals()["fn"+str(campo)])
+        globals()["bt"+str(campo)] = ttk.Button(frame, cursor="hand1", image=photo, command = globals()["fn"+str(campo)])
         
         # Posiciona widgets na tela
         globals()["lb"+str(campo)].grid(row=0, column=index, sticky='w') 
@@ -78,6 +79,16 @@ def montaCamposPesquisa(frame, campos, photo):
         globals()["bt"+str(campo)].grid(row=0, column=index+2, padx=2)
         index += 3
     
+def mostraIntegrantes():
+    janelaIntegrantes = tk.Toplevel(janela)
+    janelaIntegrantes.title("Autores da atividade")
+    janelaIntegrantes.resizable(False, False)
+    nome1 = ttk.Label(janelaIntegrantes, text="Eduardo Jardim da Silva RA 062160042").pack()
+    nome2 = ttk.Label(janelaIntegrantes, text="Gabriel Vinicius Santos de Oliveira RA 062160008").pack()
+    nome3 = ttk.Label(janelaIntegrantes, text="Gabriel Schork Perez Flores A. Alberti RA 062160007").pack()
+    nome4 = ttk.Label(janelaIntegrantes, text="Genival de Melo Junior RA 062160036").pack()
+    nome5 = ttk.Label(janelaIntegrantes, text="Lucas Oliveira Coelho RA 062160044").pack()
+
 janela = tk.Tk()
 # Frame Campos de Pesquisa
 frEntradas = ttk.LabelFrame(janela, text = "Campos de Pesquisa")
@@ -117,9 +128,12 @@ lbCountResults = ttk.Label(frTree, textvariable=countResults)
 FrameSelecao =  ttk.LabelFrame(janela, text='Tipo de Pesquisa')
 FrameSelecao.config(relief='groove')
 estado_selecao = tk.StringVar(None,2)
-select1 = ttk.Radiobutton(FrameSelecao, text='Comeca com', variable=estado_selecao, value=1)
-select2 = ttk.Radiobutton(FrameSelecao, text='Contém', variable=estado_selecao, value=2)
-select3 = ttk.Radiobutton(FrameSelecao, text='Termina com', variable=estado_selecao, value=3)
+select1 = ttk.Radiobutton(FrameSelecao, cursor='hand1', text='Comeca com', variable=estado_selecao, value=1)
+select2 = ttk.Radiobutton(FrameSelecao, cursor='hand1', text='Contém', variable=estado_selecao, value=2)
+select3 = ttk.Radiobutton(FrameSelecao, cursor='hand1', text='Termina com', variable=estado_selecao, value=3)
+
+#Botão para mostrar nome dos integrantes
+btIntegrantes =  ttk.Button(frTree, cursor='hand1', text="Mostrar autores da atividade", command=mostraIntegrantes)
 
 # Monta alguns widgets na tela
 frEntradas.grid(row=0, column=0)
@@ -127,13 +141,14 @@ frTree.grid(row=1, columnspan=2)
 lbqueryExecutada.grid(row=0, sticky='w')
 tree.grid(row=1, columnspan=2)
 lbCountResults.grid(row=2, column=0, sticky='w')
+btIntegrantes.grid(row=2, column=1, sticky='we')
 FrameSelecao.grid(row=0, column=1, padx =2, pady=2)
 select1.grid(row=0, column=0, sticky = tk.W,pady=2)
 select2.grid(row=1, column=0, sticky = tk.W, pady=2)
 select3.grid(row=2, column=0, sticky = tk.W, pady=2)
 
 # Configura janela
-janela.geometry("1010x380+0+0")
+janela.geometry("1010x385+0+0")
 janela.resizable(False, False)
 janela.title("Consulta de Alunos - Integração SQLite e GUI")
 janela.mainloop()
