@@ -1,2 +1,2 @@
 # PythonSQLiteTkinterECA10
-Repositório para fazermos a tarefa de integração SQLite e GUI em Python
+Neste repositório desenvolvi uma aplicação python com interface visual para uma atividade da Faculdade
